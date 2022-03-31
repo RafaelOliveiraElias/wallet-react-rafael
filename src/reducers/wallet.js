@@ -3,7 +3,9 @@ import { REQUEST_CURRENCIES_FAILURE, REQUEST_CURRENCIES_SUCCESS,
 
 const INITIAL_STATE = {
   currencies: [],
+  data: {},
   error: '',
+  expenses: [],
 };
 
 const walletReducer = (state = INITIAL_STATE, action) => {
@@ -17,6 +19,7 @@ const walletReducer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       isFetching: false,
+      data: action.currencies,
       currencies: Object.keys(action.currencies).filter((each) => each !== 'USDT'),
     };
   case REQUEST_CURRENCIES_FAILURE:
@@ -24,6 +27,11 @@ const walletReducer = (state = INITIAL_STATE, action) => {
       ...state,
       isFetching: false,
       error: action.error,
+    };
+  case 'EXPENSES':
+    return {
+      ...state,
+      expenses: [...state.expenses, action.value],
     };
   default:
     return state;

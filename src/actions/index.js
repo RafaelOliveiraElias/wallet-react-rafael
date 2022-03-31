@@ -7,6 +7,8 @@ export const REQUEST_CURRENCIES_FAILURE = 'REQUEST_CURRENCIES_FAILURE';
 
 export const login = (value) => ({ type: 'LOGIN', value });
 
+export const expenses = (value) => ({ type: 'EXPENSES', value });
+
 export const requestCurrencies = () => ({
   type: REQUEST_CURRENCIES,
 });
