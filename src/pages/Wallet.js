@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchCurrencies, expenses as expensesAction } from '../actions';
+import Table from '../Table';
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class Wallet extends React.Component {
     this.state = {
       value: '',
       description: '',
-      currency: '',
+      currency: 'USD',
       method: '',
       tag: '',
       ask: 0,
@@ -95,7 +96,7 @@ class Wallet extends React.Component {
             <span data-testid="header-currency-field">BRL</span>
           </p>
         </header>
-        <main>
+        <div>
           <label htmlFor="value-input">
             Valor:
             <input
@@ -200,7 +201,8 @@ class Wallet extends React.Component {
           >
             Adicionar despesa
           </button>
-        </main>
+        </div>
+        <Table />
       </div>
     );
   }
