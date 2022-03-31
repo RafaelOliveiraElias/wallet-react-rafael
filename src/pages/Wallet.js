@@ -36,6 +36,9 @@ class Wallet extends React.Component {
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
+  getCurrencies: PropTypes.arrayOf(
+    PropTypes.string,
+  ).isRequired,
 };
 
 const mapStateToProps = (state) => ({
