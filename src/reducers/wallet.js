@@ -2,7 +2,7 @@ import { REQUEST_CURRENCIES_FAILURE, REQUEST_CURRENCIES_SUCCESS,
   REQUEST_CURRENCIES } from '../actions';
 
 const INITIAL_STATE = {
-  currencies: {},
+  currencies: [],
   error: '',
 };
 
