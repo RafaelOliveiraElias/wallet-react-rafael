@@ -13,6 +13,7 @@ class Wallet extends React.Component {
       currency: 'USD',
       method: '',
       tag: '',
+      editar: false,
     };
   }
 
@@ -37,8 +38,6 @@ class Wallet extends React.Component {
     const { expenses, expensesState, data, getCurrencies } = this.props;
 
     await getCurrencies();
-    const med = Number(data[currency].ask);
-    const newValor = (Number(value) * med).toFixed(2);
     await expenses({
       id: expensesState.length,
       value,
@@ -47,7 +46,6 @@ class Wallet extends React.Component {
       method,
       tag,
       exchangeRates: data,
-      valueConverted: newValor,
     });
 
     this.setState({
@@ -63,6 +61,7 @@ class Wallet extends React.Component {
 
   render() {
     const { email, currencies, expensesState } = this.props;
+    const { value, editar } = this.state;
     return (
       <div>
         <header>
@@ -74,13 +73,11 @@ class Wallet extends React.Component {
             Total:
             <span data-testid="total-field">
               {
-                expensesState.reduce((acc, { currency, value, exchangeRates }) => {
-                  const calculado = value * exchangeRates[currency].ask;
-
-                  return calculado + acc;
-                }, 0)
+                expensesState.reduce((accum, each) => {
+                  const calculado = each.value * each.exchangeRates[each.currency].ask;
+                  return calculado + accum;
+                }, 0).toFixed(2)
               }
-
             </span>
           </p>
           <p>
@@ -95,6 +92,7 @@ class Wallet extends React.Component {
               name="value"
               type="text"
               id="value-input"
+              value={ value }
               data-testid="value-input"
               onChange={ this.onInputChange }
             />
@@ -120,7 +118,6 @@ class Wallet extends React.Component {
             <select
               name="method"
               id="method"
-              value="method"
               data-testid="method-input"
               onChange={ this.onInputChange }
             >
@@ -185,15 +182,18 @@ class Wallet extends React.Component {
               onChange={ this.onInputChange }
             />
           </label>
-          <button
-            type="submit"
-            value="Submit"
-            onClick={ this.handleClick }
-          >
-            Adicionar despesa
-          </button>
+          { editar
+            ? <button type="button">Editar</button>
+            : (
+              <button
+                type="submit"
+                value="Submit"
+                onClick={ this.handleClick }
+              >
+                Adicionar despesa
+              </button>)}
         </div>
-        <Table deleteFunc={ this.deleteFunc } />
+        <Table />
       </div>
     );
   }
