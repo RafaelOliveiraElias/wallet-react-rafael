@@ -6,10 +6,16 @@ export const REQUEST_CURRENCIES_SUCCESS = 'REQUEST_CURRENCIES_SUCCESS';
 export const REQUEST_CURRENCIES_FAILURE = 'REQUEST_CURRENCIES_FAILURE';
 export const DELETE_STUFF = 'DELETE_STUFF';
 
+export const EDIT_STUFF = 'EDIT_STUFF';
+
 export const deleteStuff = (value) => ({ type: 'DELETE_STUFF', value });
 export const login = (value) => ({ type: 'LOGIN', value });
 
 export const expenses = (value) => ({ type: 'EXPENSES', value });
+
+export const editStuff = (value) => ({ type: EDIT_STUFF, value });
+
+export const saveStuff = (value) => ({ type: 'SAVE_STUFF', value });
 
 export const requestCurrencies = () => ({
   type: REQUEST_CURRENCIES,
