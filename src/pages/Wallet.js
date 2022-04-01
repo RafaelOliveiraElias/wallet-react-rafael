@@ -13,24 +13,14 @@ class Wallet extends React.Component {
       currency: 'USD',
       method: '',
       tag: '',
-      ask: 0,
     };
   }
 
   componentDidMount() {
     // requisicao da api
     // console.log('PROPS', this.props);
-    const { getCurrencies, expensesState } = this.props;
+    const { getCurrencies } = this.props;
     getCurrencies();
-    if (expensesState.length !== 0) {
-      let valor = 0;
-      expensesState.forEach(({ value }) => {
-        valor += Number(value);
-      });
-      this.setState({
-        ask: Number(valor),
-      });
-    }
   }
 
   onInputChange = ({ target }) => {
@@ -43,12 +33,12 @@ class Wallet extends React.Component {
 
   handleClick = async (e) => {
     e.preventDefault();
-    const { value, description, currency, method, tag, ask } = this.state;
+    const { value, description, currency, method, tag } = this.state;
     const { expenses, expensesState, data, getCurrencies } = this.props;
 
     await getCurrencies();
     const med = Number(data[currency].ask);
-    const newValor = Number(value) * med;
+    const newValor = (Number(value) * med).toFixed(2);
     await expenses({
       id: expensesState.length,
       value,
@@ -57,29 +47,22 @@ class Wallet extends React.Component {
       method,
       tag,
       exchangeRates: data,
-    });
-
-    let valor = 0;
-    expensesState.forEach((each) => {
-      valor += each.value;
-    });
-    valor = ask + newValor;
-    this.setState({
-      ask: Math.floor(valor * 100) / 100,
+      valueConverted: newValor,
     });
 
     this.setState({
       value: '',
       description: '',
-      currency: '',
+      currency: 'USD',
       method: '',
       tag: '',
     });
   }
 
+  getSum = (total, num) => Number(total) + Number(num)
+
   render() {
-    const { email, currencies } = this.props;
-    const { ask, value } = this.state;
+    const { email, currencies, expensesState } = this.props;
     return (
       <div>
         <header>
@@ -89,7 +72,16 @@ class Wallet extends React.Component {
           </h2>
           <p>
             Total:
-            <span data-testid="total-field">{ ask }</span>
+            <span data-testid="total-field">
+              {
+                expensesState.reduce((acc, { currency, value, exchangeRates }) => {
+                  const calculado = value * exchangeRates[currency].ask;
+
+                  return calculado + acc;
+                }, 0)
+              }
+
+            </span>
           </p>
           <p>
             Câmbio:
@@ -104,7 +96,6 @@ class Wallet extends React.Component {
               type="text"
               id="value-input"
               data-testid="value-input"
-              value={ value }
               onChange={ this.onInputChange }
             />
           </label>
@@ -202,7 +193,7 @@ class Wallet extends React.Component {
             Adicionar despesa
           </button>
         </div>
-        <Table />
+        <Table deleteFunc={ this.deleteFunc } />
       </div>
     );
   }
@@ -228,6 +219,7 @@ const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   data: state.wallet.data,
   expensesState: state.wallet.expenses,
+  total: state.wallet.ask,
 });
 
 const mapDispatchToProps = (dispatch) => ({

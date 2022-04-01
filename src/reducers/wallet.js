@@ -6,6 +6,15 @@ const INITIAL_STATE = {
   data: {},
   error: '',
   expenses: [],
+  ask: 0,
+};
+
+const askTotal = (state) => {
+  let valor = 0;
+  state.forEach((each) => {
+    valor += Number(each.valueConverted);
+  });
+  return valor;
 };
 
 const walletReducer = (state = INITIAL_STATE, action) => {
@@ -32,6 +41,13 @@ const walletReducer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       expenses: [...state.expenses, action.value],
+      ask: askTotal([...state.expenses, action.value]),
+    };
+  case 'DELETE_STUFF':
+    return {
+      ...state,
+      expenses: [...state.expenses.filter((each) => each.id !== action.value)],
+      ask: askTotal([...state.expenses.filter((each) => each.id !== action.value)]),
     };
   default:
     return state;
