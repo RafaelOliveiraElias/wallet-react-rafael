@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Button } from 'reactstrap';
 import { fetchCurrencies, expenses as expensesAction, saveStuff } from '../actions';
-import Table from '../Table';
+import TableComp from '../TableComp';
+import './wallet.css';
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -65,15 +67,15 @@ class Wallet extends React.Component {
     const { email, currencies, expensesState, editar } = this.props;
     const { value, currency, method, description, tag } = this.state;
     return (
-      <div>
-        <header>
+      <div className="wallet-body">
+        <header className="header1">
           <h2>
             Usuário:
             <span data-testid="email-field">{email}</span>
           </h2>
           <p>
-            Total:
-            <span data-testid="total-field">
+            Total: R$
+            <span className="totalField" data-testid="total-field">
               {
                 expensesState.reduce((accum, each) => {
                   const calculado = each.value * each.exchangeRates[each.currency].ask;
@@ -87,7 +89,7 @@ class Wallet extends React.Component {
             <span data-testid="header-currency-field">BRL</span>
           </p>
         </header>
-        <div>
+        <div className="minHeader">
           <label htmlFor="value-input">
             Valor:
             <input
@@ -100,7 +102,7 @@ class Wallet extends React.Component {
             />
           </label>
           <label htmlFor="currencies">
-            Moeda
+            Moeda:
             <select
               name="currency"
               id="currencies"
@@ -118,7 +120,7 @@ class Wallet extends React.Component {
             </select>
           </label>
           <label htmlFor="method">
-            Método de pagamento
+            Método de pagamento:
             <select
               name="method"
               id="method"
@@ -144,7 +146,7 @@ class Wallet extends React.Component {
             </select>
           </label>
           <label htmlFor="category">
-            Categoria
+            Categoria:
             <select
               name="tag"
               id="category"
@@ -152,29 +154,19 @@ class Wallet extends React.Component {
               data-testid="tag-input"
               onChange={ this.onInputChange }
             >
-              <option
-                value="alimentação"
-              >
+              <option value="alimentação">
                 Alimentação
               </option>
-              <option
-                value="Lazer"
-              >
+              <option value="Lazer">
                 Lazer
               </option>
-              <option
-                value="Trabalho"
-              >
+              <option value="Trabalho">
                 Trabalho
               </option>
-              <option
-                value="Transporte"
-              >
+              <option value="Transporte">
                 Transporte
               </option>
-              <option
-                value="Saúde"
-              >
+              <option value="Saúde">
                 Saúde
               </option>
             </select>
@@ -191,22 +183,23 @@ class Wallet extends React.Component {
           </label>
           { editar
             ? (
-              <button
+              <Button
                 type="button"
                 onClick={ this.newClick }
+                color="success"
               >
                 Editar despesa
-              </button>)
+              </Button>)
             : (
-              <button
+              <Button
                 type="submit"
                 value="Submit"
                 onClick={ this.handleClick }
               >
                 Adicionar despesa
-              </button>)}
+              </Button>)}
         </div>
-        <Table />
+        <TableComp />
       </div>
     );
   }

@@ -1,14 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Table, Button } from 'reactstrap';
 import { fetchCurrencies, deleteStuff, editStuff } from './actions';
 
-class Table extends React.Component {
+class TableComp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTr: '',
+    };
+  }
+
   render() {
     const { expensesState, deleteExp, edit } = this.props;
+    const { selectedTr } = this.state;
     return (
-      <table>
-        <thead>
+      <Table className="table" bordered>
+        <thead className="headtable">
           <tr>
             <th>Descrição</th>
             <th>Tag</th>
@@ -22,34 +31,40 @@ class Table extends React.Component {
           </tr>
         </thead>
         {expensesState.map((each) => (
-          <thead key={ each.id }>
-            <tr>
+          <tbody key={ each.id }>
+            <tr className={ selectedTr === each.id ? 'selected' : null }>
               <td>{each.description}</td>
               <td>{each.tag}</td>
               <td>{each.method}</td>
               <td>
-                {Number(each.value).toFixed(2)}
+                {`${each.currency} ${Number(each.value).toFixed(2)}`}
               </td>
               <td>{each.exchangeRates[each.currency].name.split('/')[0]}</td>
               <td>{Number(each.exchangeRates[each.currency].ask).toFixed(2)}</td>
               <td>
-                {
-                  Number(each.value) * Number(each.exchangeRates[each.currency].ask)
-                }
+                R$
+                {' '}
+                { (Number(each.value) * Number(each.exchangeRates[each.currency].ask))
+                  .toFixed(2)}
 
               </td>
               <td>Real</td>
-              <td>
-                <button
+              <td className="btns">
+                <Button
                   type="button"
                   data-testid="edit-btn"
+                  color="success"
                   onClick={ () => {
                     edit(each.id);
+                    this.setState({
+                      selectedTr: selectedTr === each.id ? null : each.id,
+                    });
                   } }
                 >
                   editar
-                </button>
-                <button
+                </Button>
+                <Button
+                  color="danger"
                   type="button"
                   data-testid="delete-btn"
                   onClick={ () => {
@@ -58,17 +73,17 @@ class Table extends React.Component {
                 >
                   excluir
 
-                </button>
+                </Button>
               </td>
             </tr>
-          </thead>
+          </tbody>
         ))}
-      </table>
+      </Table>
     );
   }
 }
 
-Table.propTypes = {
+TableComp.propTypes = {
   expensesState: PropTypes.arrayOf(
     PropTypes.any,
   ).isRequired,
@@ -89,4 +104,4 @@ const mapDispatchToProps = (dispatch) => ({
   edit: (e) => dispatch(editStuff(e)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Table);
+export default connect(mapStateToProps, mapDispatchToProps)(TableComp);

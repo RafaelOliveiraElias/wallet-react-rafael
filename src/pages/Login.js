@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import './login.css';
+import { Button } from 'reactstrap';
 import { login as loginAction } from '../actions';
 
 class Login extends React.Component {
@@ -55,37 +57,44 @@ class Login extends React.Component {
   render() {
     const { isInvalid, clicked } = this.state;
     return (
-      <div>
-        <h2>Login</h2>
-        <label htmlFor="email">
-          Enter your email:
-          <input
-            id="email"
-            data-testid="email-input"
-            type="email"
-            name="email"
-            onChange={ this.onInputChange }
-          />
-        </label>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            id="password"
-            name="password"
-            data-testid="password-input"
-            onChange={ this.onInputChange }
-          />
-        </label>
-        <button
-          type="submit"
-          value="Submit"
-          disabled={ isInvalid }
-          onClick={ () => this.loginFunction() }
-        >
-          Entrar
-        </button>
-        {clicked ? <Redirect to="/carteira" /> : null }
+      <div className="login-body">
+        <div className="login">
+          <div className="h2-container">
+            <h2>Login</h2>
+          </div>
+          <label className="label-container" htmlFor="email">
+            Email:
+            <input
+              id="email"
+              data-testid="email-input"
+              type="email"
+              name="email"
+              onChange={ this.onInputChange }
+            />
+          </label>
+          <label className="label-container" htmlFor="password">
+            Senha:
+            <input
+              type="password"
+              id="password"
+              name="password"
+              data-testid="password-input"
+              onChange={ this.onInputChange }
+            />
+          </label>
+          <Button
+            type="submit"
+            color="primary"
+            size="lg"
+            block
+            value="Submit"
+            disabled={ isInvalid }
+            onClick={ () => this.loginFunction() }
+          >
+            Entrar
+          </Button>
+          {clicked ? <Redirect to="/carteira" /> : null }
+        </div>
       </div>);
   }
 }

@@ -1,0 +1,80 @@
+.wallet-body {
+  align-items: center;
+  background-color: white;
+  background-image: url('../imgs/bglogin.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.header1 {
+  align-items: center;
+  background-color: #ebebeb;
+  display: flex;
+  font-size: 1.5em;
+  height: 75px;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.header1 p {
+  margin: 0;
+}
+
+.totalField {
+  font-size: 1.4em;
+}
+
+.minHeader * {
+  margin: 0;
+}
+
+.minHeader {
+  align-items: center;
+  background-color: #333;
+  border-color: #333;
+  color: white;
+  display: flex;
+  font-size: 1.2em;
+  height: 75px;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.minHeader input {
+  margin: 5px;
+}
+
+.minHeader select {
+  margin: 5px;
+}
+
+.table {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid black;
+  box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.192);
+  font-size: 1.3em;
+  text-align: center;
+}
+
+.table thead {
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid black;
+  font-size: 0.8em;
+}
+
+.btns button {
+  margin-left: 5px;
+}
+
+.selected {
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+}
